@@ -1,0 +1,36 @@
+{% extends 'stocks/base.html' %}
+{% block body %}
+    <div class="col-sm-4 col-lg-2" style="padding-top: 70px;">
+        {% if messages %}
+            {% for message in messages %}
+                <p><strong>{{ message }}</strong></p>
+            {% endfor %}
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                {% if investment_list %}
+                    {% for investment in investment_list %}
+                        <div class="col-sm-3">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    {{ investment.code }}
+                                </div>
+                                <div class="panel-body">
+                                    <a href="/stocks/{{ investment.id }}">Detail</a>
+                                </div>
+                                <div class="panel-footer">
+                                    <form action="{% url 'stocks:delete' investment.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default btn-sm">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
